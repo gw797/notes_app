@@ -1,0 +1,33 @@
+{
+    "last_id": 5,
+    "notes": [
+        {
+            "id": 1,
+            "title": "Shopping",
+            "created_at": "2026-09-02T08:38:53.332887+00:00",
+            "content": "Milk, eggs",
+            "type": "SimpleNote"
+        },
+        {
+            "id": 3,
+            "title": "Shopping",
+            "created_at": "2026-09-02T11:35:13.694479+00:00",
+            "content": "Milk, bread, eggs",
+            "type": "SimpleNote"
+        },
+        {
+            "id": 4,
+            "title": "sss",
+            "created_at": "2026-09-15T11:23:21.521355+00:00",
+            "content": "ffgg",
+            "type": "SimpleNote"
+        },
+        {
+            "id": 5,
+            "title": "sss",
+            "created_at": "2026-09-15T11:43:39.425379+00:00",
+            "content": "ffgg",
+            "type": "SimpleNote"
+        }
+    ]
+}
