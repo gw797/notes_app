@@ -3,18 +3,35 @@ from datetime import datetime, timezone
 
 class BaseNote:
 
-    def __init__(self, title, note_id, created_at=None):
+    def __init__(
+            self,
+            title: str,
+            note_id: int,
+            created_at: datetime | None = None
+    ) -> None:
         self.id = note_id
         self.title = title
         self.created_at = created_at or datetime.now(timezone.utc)
 
-    def to_dict(self):
-        data = self.__dict__.copy()
-        data["type"] = self.__class__.__name__
-        data["created_at"] = self.created_at.isoformat()
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "title": self.title,
+            "created_at": self.created_at.isoformat(),
+            "type": self.__class__.__name__
+        }
 
-        return data
+    @classmethod
+    def get_common_fields(cls, data: dict) -> dict:
+        return {
+            "title": data["title"],
+            "note_id": data["id"],
+            "created_at": datetime.fromisoformat(data["created_at"])
+        }
 
-
-    def __str__(self):
-        return str(self.__dict__)
+    def __str__(self) -> str:
+        return (
+            f"id = {self.id}, "
+            f"title = {self.title}, "
+            f"created_at = {self.created_at.strftime('%d/%m/%Y %H:%M')}"
+        )

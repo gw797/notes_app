@@ -5,7 +5,13 @@ from .base_note import BaseNote
 
 class SimpleNote(BaseNote):
 
-    def __init__(self, title, content, note_id, created_at=None):
+    def __init__(
+            self,
+            title: str,
+            content: str,
+            note_id: int,
+            created_at: datetime | None = None
+    ) -> None:
         super().__init__(
             title=title,
             note_id=note_id,
@@ -15,10 +21,13 @@ class SimpleNote(BaseNote):
         self.content = content
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data: dict) -> "SimpleNote":
         return cls(
-            title=data["title"],
+            **BaseNote.get_common_fields(data),
             content=data["content"],
-            note_id=data["id"],
-            created_at=datetime.fromisoformat(data["created_at"])
-            )
+        )
+
+    def to_dict(self) -> dict:
+        data = super().to_dict()
+        data["content"] = self.content
+        return data

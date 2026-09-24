@@ -1,25 +1,20 @@
 import click
-from app import service
-import logging
 
+from app import service
+from models.base_note import BaseNote
 from utils.note_logger import logger
 
 
 @click.group()
-def cli():
+def cli() -> None:
     pass
 
 
-@cli.group()
-def add():
-    pass
-
-
-@click.command()
+@cli.command()
 @click.option("--type", required=True)
 @click.option("--title", required=True)
 @click.option("--content", required=True)
-def create(type, title, content):
+def create(type: str, title: str, content: str) -> None:
     try:
         note = service.create(type, title, content)
 
@@ -31,31 +26,36 @@ def create(type, title, content):
 
 
 @cli.command()
-def show():
+def show() -> None:
     try:
         all_notes = service.get_all_notes()
+
         for note in all_notes:
             logger.info(note)
+
     except Exception as e:
-        logging.error(e)
+        logger.error(e)
 
 
 @cli.command()
 @click.argument("note_id", type=int)
-def show_note(note_id):
+def show_note(note_id: int) -> None:
     try:
         note = service.get_note_by_id(note_id)
+
         if note is None:
             logger.info(f"Note with id {note_id} was not found.")
             return
-        click.echo(note)
+
+        click.echo(BaseNote.__str__(note))
+
     except Exception as e:
-        logging.error(e)
+        logger.error(e)
 
 
 @cli.command()
 @click.argument("note_id", type=int)
-def delete(note_id):
+def delete(note_id: int) -> None:
     try:
         deleted_note = service.delete_note(note_id)
 
@@ -74,7 +74,13 @@ def delete(note_id):
 @click.option("--content")
 @click.option("--url")
 @click.option("--items", multiple=True)
-def update(note_id, title, content, url, items):
+def update(
+        note_id: int,
+        title: str | None,
+        content: str | None,
+        url: str | None,
+        items: tuple[str, ...]
+) -> None:
     try:
         note = service.update_note(
             note_id,
@@ -88,5 +94,6 @@ def update(note_id, title, content, url, items):
             logger.info(f"Note {note_id} updated successfully!")
         else:
             logger.warning(f"Note {note_id} not found.")
+
     except Exception as e:
         logger.error(e)
