@@ -10,20 +10,23 @@ class ListNote(BaseNote):
             title: str,
             notes_list: list[str],
             note_id: int,
-            created_at: datetime | None = None
+            created_at: datetime | None = None,
+            updated_at: datetime | None = None
     ) -> None:
         super().__init__(
             title=title,
             note_id=note_id,
-            created_at=created_at
+            created_at=created_at,
+            updated_at=updated_at
         )
 
         self.notes_list = notes_list
-
+#TODO
     @classmethod
     def from_dict(cls, data: dict) -> "ListNote":
+        base_note_data = super().from_dict(data)
         return cls(
-            **BaseNote.get_common_fields(data),
+            **base_note_data,
             notes_list=data["notes_list"],
         )
 

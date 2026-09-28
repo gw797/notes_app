@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from data_base.data_base import Database
 from repository.note_repository import NoteRepository
 from models.base_note import BaseNote
@@ -68,6 +70,8 @@ class NoteService:
         for field, value in kwargs.items():
             if value is not None:
                 setattr(note, field, value)
+        note.updated_at = datetime.now()
+
 
         self.repository.save(self.db)
 

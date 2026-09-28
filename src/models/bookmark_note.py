@@ -10,24 +10,23 @@ class BookmarkNote(BaseNote):
             title: str,
             url: str,
             note_id: int,
-            created_at: datetime | None = None
+            created_at: datetime | None = None,
+            updated_at: datetime | None = None
     ) -> None:
         super().__init__(
             title=title,
             note_id=note_id,
-            created_at=created_at
+            created_at=created_at,
+            updated_at=updated_at
         )
 
         self.url = url
 
     @classmethod
     def from_dict(cls, data: dict) -> "BookmarkNote":
-        fields = BaseNote.get_common_fields(data)
-
+        base_note_data = super().from_dict(data)
         return cls(
-            title=fields["title"],
-            note_id=fields["note_id"],
-            created_at=fields["created_at"],
+            **base_note_data,
             url=data["url"]
         )
 

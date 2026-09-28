@@ -21,8 +21,12 @@ def create(type: str, title: str, content: str) -> None:
         if note is not None:
             logger.info(f"Note {note.id} created successfully!")
 
+    except FileNotFoundError:
+        logger.warning("File not found. Returning empty database.")
+
     except Exception as e:
         logger.error(e)
+
 
 
 @cli.command()
@@ -32,6 +36,8 @@ def show() -> None:
 
         for note in all_notes:
             logger.info(note)
+    except FileNotFoundError:
+        logger.warning("File not found. Returning empty database.")
 
     except Exception as e:
         logger.error(e)
@@ -48,7 +54,8 @@ def show_note(note_id: int) -> None:
             return
 
         click.echo(BaseNote.__str__(note))
-
+    except FileNotFoundError:
+        logger.warning("File not found. Returning empty database.")
     except Exception as e:
         logger.error(e)
 
@@ -63,7 +70,8 @@ def delete(note_id: int) -> None:
             logger.info(f"Note {note_id} deleted successfully!")
         else:
             logger.warning(f"Note {note_id} was not found.")
-
+    except FileNotFoundError:
+        logger.warning("File not found. Returning empty database.")
     except Exception as e:
         logger.error(e)
 
@@ -94,6 +102,7 @@ def update(
             logger.info(f"Note {note_id} updated successfully!")
         else:
             logger.warning(f"Note {note_id} not found.")
-
+    except FileNotFoundError:
+        logger.warning("File not found. Returning empty database.")
     except Exception as e:
         logger.error(e)
